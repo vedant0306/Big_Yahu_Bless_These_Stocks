@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv
+import stock_list
 
 load_dotenv()
 
@@ -12,9 +13,9 @@ class Config:
         self.IS_PAPER = os.getenv("IS_PAPER", "true").lower() == "true"
         
         # Strategy Parameters
-        self.SYMBOL = os.getenv("SYMBOL", "AAPL")
-        self.FAST_WINDOW = int(os.getenv("FAST_WINDOW", 20))
-        self.SLOW_WINDOW = int(os.getenv("SLOW_WINDOW", 50))
+        self.SYMBOL = stock_list.get_tradable_universe(500)
+        self.FAST_WINDOW = 20
+        self.SLOW_WINDOW = 50
         
         # Safety Check
         if not self.API_KEY or not self.SECRET_KEY:

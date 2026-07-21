@@ -1,9 +1,10 @@
 import sys
 from src.config import Config
 from src.data import MarketDataClient
-from src.strategy import MovingAverageCrossover
+from src.strategy import EnsembleStrategy
 from src.execution import OrderExecutor
-
+from src.stock_list import Stock_List
+import time
 def main():
     try:
         # 1. Load Configurations
@@ -13,30 +14,53 @@ def main():
 
         # 2. Instantiate Modules
         data_client = MarketDataClient(config)
-        strategy = MovingAverageCrossover(config.FAST_WINDOW, config.SLOW_WINDOW)
+        strategy = EnsembleStrategy(min_votes=2)
         executor = OrderExecutor(config)
 
         # Print balance details
+        executor.Print_Data_to_Terminal()
         executor.get_account_info()
 
-        # 3. Fetch Data
-        print(f"Fetching market data for {config.SYMBOL}...")
-        bars = data_client.get_recent_bars(config.SYMBOL, limit=config.SLOW_WINDOW + 10)
+        symbols = Stock_List.get_tradable_universe(limit=500)
+        print(f"Loaded {len(symbols)} tickers for execution.\n" + "-"*40)
 
-        # 4. Generate Signal
-        signal = strategy.generate_signal(bars)
-        print(f"Generated Signal: {signal}")
+        # 3. Process Stocks in Loop
+        for index, symbol in enumerate(symbols, start=1):
+            try:
+                print(f"[{index}/{len(symbols)}] Analyzing {symbol}...")
+                
+                # Fetch data
+                bars = data_client.get_recent_bars(symbol, limit=250)
+                
+                if bars is None or len(bars) < 50:
+                    print(f"⚠️ Insufficient data for {symbol}, skipping...")
+                    continue
+                # Generate signal
+                result = strategy.generate_signal(bars)
+                signal = result["signal"]
+                stop_loss = result.get("stop_loss")
+                take_profit = result.get("take_profit")
 
-        # 5. Execute
-        if signal == "BUY":
-            executor.place_buy_order(config.SYMBOL, qty=1)
-        elif signal == "SELL":
-            executor.place_sell_order(config.SYMBOL, qty=1)
-        else:
-            print("No action required. Holding current position.")
+                # Execute Trade based on signal
+                if signal == "BUY":
+                    print(f"🚀 BUY Signal detected for {symbol}!")
+                    executor.place_buy_order(symbol=symbol, qty=1, stop_loss=stop_loss, take_profit=take_profit)                
+                elif signal == "SELL":
+                    print(f"🔻 SELL Signal detected for {symbol}!")
+                    executor.place_sell_order(symbol=symbol, qty=1, stop_loss=stop_loss, take_profit=take_profit)
+                else:
+                    print(f"HOLDing {symbol}.")
+
+            except Exception as e:
+                # Keep loop alive even if one symbol fails (e.g. invalid ticker or missing data)
+                print(f"⚠️ Skipped {symbol}: {e}")
+                continue
+            #sleep so that the API does not get overloaded
+            time.sleep(0.3)
 
     except Exception as e:
-        print(f"An error occurred: {e}", file=sys.stderr)
+        print(f"An error occured {e}", file=sys.stderr)
+        
 
 if __name__ == "__main__":
     main()
