@@ -1,5 +1,6 @@
 # src/strategy.py
 import pandas as pd
+import numpy as np
 
 class MovingAverageCrossover:
     def __init__(self, fast_window: int = 20, slow_window: int = 50):
