@@ -13,6 +13,7 @@ class Stock_List:
         # ... You can dynamically load the full S&P 500 list here or pass a subset
     ]
 
-    def get_tradable_universe(limit: int = 500):
+    @classmethod
+    def get_tradable_universe(cls, limit: int = 500):
         """Returns the top N stocks from the universe."""
-        return TICKERS_500[:limit]
+        return cls.TICKERS_500[:limit]

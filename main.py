@@ -1,12 +1,29 @@
 import sys
+import time
+import datetime
+from zoneinfo import ZoneInfo
 from src.config import Config
 from src.data import MarketDataClient
 from src.strategy import EnsembleStrategy
 from src.execution import OrderExecutor
 from src.stock_list import Stock_List
-import time
+
+def is_market_hours() -> bool:
+    ny_tz = ZoneInfo("America/New_York")
+    now = datetime.datetime.now(tz=ny_tz)
+
+    if now.weekday() >= 5:  # Saturday=5, Sunday=6
+        return False
+
+    market_open = datetime.time(hour=9, minute=30, tzinfo=ny_tz)
+    market_close = datetime.time(hour=16, minute=0, tzinfo=ny_tz)
+    return market_open <= now.timetz() <= market_close
+
 def main():
     try:
+        if not is_market_hours():
+            print("Market is currently closed. Exiting without trading.")
+            return
         # 1. Load Configurations
         config = Config()
         mode_label = "PAPER TRADING" if config.IS_PAPER else " LIVE REAL MONEY "

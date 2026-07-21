@@ -1,10 +1,12 @@
 name: Scheduled Trading Execution
 
 on:
-  # 1. Scheduled run using CRON (Runs Monday through Friday)
-  # Note: Times are in UTC. Adjust 14:30 - 21:00 UTC for US Market Hours (9:30 AM - 4:00 PM EST)
+  # 1. Scheduled run using CRON (Runs Monday through Friday during US market hours)
+  # Note: Times are in UTC. This workflow runs every 30 minutes during the listed market window.
   schedule:
     - cron: '30 14 * * 1-5'
+    - cron: '0,30 15-20 * * 1-5'
+    - cron: '0 21 * * 1-5'
 
   # 2. Allows manual trigger from the Actions UI
   workflow_dispatch:
