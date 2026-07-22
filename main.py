@@ -27,7 +27,7 @@ def main():
         # 1. Load Configurations
         config = Config()
         mode_label = "PAPER TRADING" if config.IS_PAPER else " LIVE REAL MONEY "
-        print(f"Starting Quant Engine in [{mode_label}] mode for {symbol}...")
+        print(f"Starting Quant Engine in [{mode_label}]")
 
         # 2. Instantiate Modules
         data_client = MarketDataClient(config)
