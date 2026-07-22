@@ -6,7 +6,7 @@ class Stock_List:
     TICKERS_500 = [
         "AAPL", "MSFT", "NVDA", "AMZN", "GOOGL", "META", "BRK.B", "TSLA", "AVGO", "PG",
         "JNJ", "COST", "HD", "UNH", "ABBV", "XOM", "MA", "V", "BAC", "JPM", "NFLX", "CRM",
-        "AMD", "CVX", "LLY", "PEP", "KO", "MRK", "TUS", "WMT", "ADBE", "ACN", "CSCO",
+        "AMD", "CVX", "LLY", "PEP", "KO", "MRK", "TU", "WMT", "ADBE", "ACN", "CSCO",
         "MCD", "DIS", "LIN", "ORCL", "ABT", "INTC", "QCOM", "INTU", "VZ", "TXN", "AMAT",
         "IBM", "GE", "AMGN", "CAT", "PFE", "NOW", "CMCSA", "GS", "MS", "SPGI", "RTX",
         "HON", "BKNG", "T", "LOW", "BLK", "ELV", "C", "AXP", "MDLZ", "NKE", "SCHW",
