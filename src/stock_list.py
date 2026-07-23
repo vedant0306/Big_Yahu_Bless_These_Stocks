@@ -10,7 +10,6 @@ class Stock_List:
         "MCD", "DIS", "LIN", "ORCL", "ABT", "INTC", "QCOM", "INTU", "VZ", "TXN", "AMAT",
         "IBM", "GE", "AMGN", "CAT", "PFE", "NOW", "CMCSA", "GS", "MS", "SPGI", "RTX",
         "HON", "BKNG", "T", "LOW", "BLK", "ELV", "C", "AXP", "MDLZ", "NKE", "SCHW",
-        # ... You can dynamically load the full S&P 500 list here or pass a subset
     ]
 
     @classmethod

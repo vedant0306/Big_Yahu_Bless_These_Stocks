@@ -4,7 +4,7 @@ on:
   # 1. Scheduled run using CRON (Runs Monday through Friday during US market hours)
   # Note: Times are in UTC. This workflow runs every 30 minutes during the listed market window.
   schedule:
-    - cron: '35 15 * * 1-5'
+    - cron: '35 12 * * 1-5'
     - cron: '0,30 15-20 * * 1-5'
     - cron: '0 21 * * 1-5'
 
