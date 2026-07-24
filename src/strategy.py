@@ -128,7 +128,7 @@ class MultiTimeframeMomentum:
     
 
 class EnsembleStrategy:
-    def __init__(self, min_votes: int = 2):
+    def __init__(self, min_votes: int = 1):
         """
         Combines multiple strategies into a single consensus decision.
         :param min_votes: Minimum number of matching signals required to trigger a trade (default: 2/3).
