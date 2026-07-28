@@ -31,7 +31,7 @@ def main():
 
         # 2. Instantiate Modules
         data_client = MarketDataClient(config)
-        strategy = EnsembleStrategy(min_votes=2)
+        strategy = EnsembleStrategy(min_votes=1)
         executor = OrderExecutor(config)
 
         # Print balance details
